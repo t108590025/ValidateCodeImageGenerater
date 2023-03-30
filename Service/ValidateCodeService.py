@@ -1,24 +1,9 @@
 import io
 import base64
 import random
-from flask_cors import CORS
-from flask import Flask, request, jsonify
 from PIL import Image, ImageDraw, ImageFont
 
-app = Flask(__name__)
-CORS(app)  # 使用默认的配置允许所有来源的跨域请求
-
-@app.route('/getValidateCodeImage', methods=['POST'])
-def validate():
-    code = request.args.get('code')
-    response = {
-        "status": "200",
-        "data": generate_captcha(code),
-        "message": "test"
-    }
-    return jsonify(response)
-
-def generate_captcha(code):
+def generateValidateCodeImage(code):
     font_path = 'arialbd.ttf'
     font_size = 30
     noise_level = 0.15
@@ -72,6 +57,3 @@ def generate_captcha(code):
 
     # 返回base64编码的字符串和图像对象
     return img_base64
-
-if __name__ == '__main__':
-    app.run(host="0.0.0.0")
